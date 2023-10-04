@@ -25,10 +25,10 @@ plt.rcParams['grid.alpha'] = 1
 plt.rcParams['grid.linewidth'] = th/2.
 
 
-df=pd.read_csv('./Greenland_mass_balance_totals_1840-2012_ver_20141130_with_uncert_via_Kjeldsen_et_al_2015.csv')
+df=pd.read_csv('./data/Greenland_mass_balance_totals_1840-2012_ver_20141130_with_uncert_via_Kjeldsen_et_al_2015.csv')
 print(df.columns)
 
-dfBC=pd.read_csv('./Greenland_mass_balance_1840-2011_Box_and_Colgan_2013.txt',delim_whitespace=True)
+dfBC=pd.read_csv('./data/Greenland_mass_balance_1840-2011_Box_and_Colgan_2013.txt',delim_whitespace=True)
 print(dfBC.columns)
 
 # ---------------------------- cumulate
@@ -36,13 +36,14 @@ iyear=1840 ; fyear=2011 ; n_years=fyear-iyear+1
 
 cum=np.zeros((2,n_years))
 
+k=-362.5
+
 temp=0.
-k=-362
 for i in range(0,n_years):
 	temp+=dfBC.TMB[i]/k
 	cum[0,i]=temp
+    
 temp=0.
-
 for i in range(0,n_years):
 	temp+=df.TMB[i]/k
 	cum[1,i]=temp
@@ -74,9 +75,13 @@ ax[cc].set_ylabel('eustatic sea level, mm')
 plt.xlim(1839,2013)
 plt.legend(loc=2)
 
+
+print(f'cumulative SLR Box and Colgan 2013 {"%.1f" % cum[0,n_years-1]}')
+print(f'cumulative SLR Kjeldsen et al 2015 {"%.1f" % cum[1,n_years-1]}')
+
 ly='x'
 
 if ly =='x':plt.show()
 
 if ly =='p':
-    plt.savefig('./plot_timeseries_TMB_1840-2012_with_SLR.png', dpi=100, bbox_inches='tight')
+    plt.savefig('./Figs/plot_timeseries_TMB_1840-2012_with_SLR.png', dpi=100, bbox_inches='tight')
