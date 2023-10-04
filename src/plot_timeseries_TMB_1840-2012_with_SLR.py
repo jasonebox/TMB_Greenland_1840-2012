@@ -31,6 +31,8 @@ print(df.columns)
 dfBC=pd.read_csv('./data/Greenland_mass_balance_1840-2011_Box_and_Colgan_2013.txt',delim_whitespace=True)
 print(dfBC.columns)
 
+dfBC["TMB"]=dfBC["Accu"]-dfBC["Runof"]-dfBC["Disc"]
+
 # ---------------------------- cumulate
 iyear=1840 ; fyear=2011 ; n_years=fyear-iyear+1
 
